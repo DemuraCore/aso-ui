@@ -5,7 +5,7 @@ The theme and UI components every ASO app shares. Change something here and each
 ## Use it in an app
 
 ```sh
-pnpm add github:DemuraCore/aso-ui#v0.1.0 @lucide/vue @vueuse/core
+pnpm add github:DemuraCore/aso-ui#v0.2.0 @lucide/vue @vueuse/core
 ```
 
 In the app's main CSS file, instead of importing Tailwind:
@@ -30,7 +30,7 @@ import { Button, Input, Select } from '@aso/ui'
 
 | Import | What's in it |
 |---|---|
-| `@aso/ui` | Buttons, fields, dropdowns, dialogs, menus, toasts, badges and the sign-in layout |
+| `@aso/ui` | Buttons, fields, dropdowns, dialogs, menus, toasts, badges, the account menu, live status, page headers, cards, stat tiles and the sign-in layout |
 | `@aso/ui/shell` | `AppShell`: the navigation rail and phone bars. Needs `vue-router` |
 | `@aso/ui/form` | Form fields with validation. Needs `vee-validate` |
 | `@aso/ui/theme.css` | Tailwind, the colors, shapes, shadows and motion |
@@ -41,6 +41,10 @@ Apps that translate their words set the shared labels once:
 import { uiLabels } from '@aso/ui'
 uiLabels.close = t('common.close')
 ```
+
+## Adding to it
+
+A component two apps could use belongs here, not in an app. Apps only keep what is about their own data.
 
 ## Release a change
 

@@ -97,14 +97,17 @@ const iconTone = (active: boolean) =>
         </RouterLink>
       </div>
 
-      <div class="mt-auto flex shrink-0 flex-col items-center gap-3 xl:items-stretch">
+      <!-- The theme button and the account menu, as on ASO -->
+      <div
+        class="mt-auto flex shrink-0 flex-col items-center gap-3 xl:flex-row xl:justify-between xl:px-1"
+      >
         <slot name="rail-footer" />
       </div>
     </nav>
 
     <header
       v-else
-      class="sticky top-0 z-30 flex min-h-16 items-center gap-1 px-4 pt-[env(safe-area-inset-top)] transition-colors duration-300"
+      class="sticky top-0 z-30 flex min-h-16 items-center gap-3 px-4 pt-[env(safe-area-inset-top)] transition-colors duration-300"
       :class="y > 4 ? 'bg-surface-container/90 backdrop-blur-md' : 'bg-surface'"
     >
       <RouterLink
@@ -115,14 +118,26 @@ const iconTone = (active: boolean) =>
         <component :is="mark" class="size-9 shrink-0" />
         <span class="text-display truncate text-2xl leading-none">{{ name }}</span>
       </RouterLink>
-      <slot name="top-actions" />
+      <slot name="status" :mini="true" />
+      <div class="flex shrink-0 items-center gap-1">
+        <slot name="top-actions" />
+      </div>
     </header>
 
     <main
-      class="min-w-0 flex-1 px-4 pt-2 pb-[calc(6rem+env(safe-area-inset-bottom))] md:px-8 md:py-8"
+      class="min-w-0 flex-1 px-4 pt-2 pb-[calc(6rem+env(safe-area-inset-bottom))] md:px-8 md:pb-16"
     >
       <div class="mx-auto max-w-7xl">
-        <slot />
+        <!-- The live status stays pinned to the top of the page, as on ASO -->
+        <div
+          v-if="desktop && $slots.status"
+          class="pointer-events-none sticky top-0 z-30 flex justify-end pt-4 *:pointer-events-auto"
+        >
+          <slot name="status" :mini="false" />
+        </div>
+        <div class="md:pt-2">
+          <slot />
+        </div>
       </div>
     </main>
 

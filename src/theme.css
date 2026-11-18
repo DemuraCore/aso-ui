@@ -56,6 +56,28 @@
   --md-sun-container: #ffdf9e;
   --md-on-sun-container: #5b4300;
 
+  /* Charts: series that are different things, checked for color blindness */
+  --md-chart-1: #4f46c8;
+  --md-chart-2: #00897a;
+  --md-chart-3: #b87400;
+  --md-chart-4: #c2477f;
+  /* Charts: steps of one thing, from least to most */
+  --md-step-1: #a9a4ec;
+  --md-step-2: #8079dd;
+  --md-step-3: #5a52cf;
+  --md-step-4: #3f37a8;
+  --md-step-5: #2e2780;
+  /* Text printed on those colors */
+  --md-chart-ink: #ffffff;
+  --md-chart-3-ink: #1b1b22;
+  --md-step-ink-1: #1b1b22;
+  --md-step-ink-2: #1b1b22;
+  --md-step-ink-3: #ffffff;
+  --md-step-ink-4: #ffffff;
+  --md-step-ink-5: #ffffff;
+  /* The fullest heat cell that still carries text */
+  --md-heat: #b5b0f5;
+
   --md-scrim: rgb(0 0 0 / 0.32);
   color-scheme: light;
 }
@@ -101,6 +123,25 @@
   --md-sun-container: #5b4300;
   --md-on-sun-container: #ffdf9e;
 
+  /* Charts */
+  --md-chart-1: #8a84f2;
+  --md-chart-2: #109a89;
+  --md-chart-3: #b9851a;
+  --md-chart-4: #d4628f;
+  --md-step-1: #4f49ad;
+  --md-step-2: #625cc9;
+  --md-step-3: #7b75e0;
+  --md-step-4: #9d98ef;
+  --md-step-5: #c3c0ff;
+  --md-chart-ink: #131318;
+  --md-chart-3-ink: #131318;
+  --md-step-ink-1: #ffffff;
+  --md-step-ink-2: #ffffff;
+  --md-step-ink-3: #131318;
+  --md-step-ink-4: #131318;
+  --md-step-ink-5: #131318;
+  --md-heat: #4a42c4;
+
   --md-scrim: rgb(0 0 0 / 0.5);
   color-scheme: dark;
 }
@@ -143,6 +184,10 @@
   --color-sun-container: var(--md-sun-container);
   --color-on-sun-container: var(--md-on-sun-container);
   --color-scrim: var(--md-scrim);
+  --color-chart-1: var(--md-chart-1);
+  --color-chart-2: var(--md-chart-2);
+  --color-chart-3: var(--md-chart-3);
+  --color-chart-4: var(--md-chart-4);
 
   /* shadcn names used by components/ui */
   --color-background: var(--md-surface);
@@ -191,6 +236,17 @@
   --animate-drop-in: drop-in 500ms var(--ease-spring) both;
   --animate-leave: leave 600ms var(--ease-effects) forwards;
   --animate-menu-in: menu-in 150ms var(--ease-emphasized);
+  --animate-cell-flash: cell-flash 900ms var(--ease-effects) forwards;
+
+  /* A chart cell that just changed */
+  @keyframes cell-flash {
+    from {
+      opacity: 0.45;
+    }
+    to {
+      opacity: 0;
+    }
+  }
 
   /* A Line deleted while on screen: tinted, then gone */
   @keyframes leave {
@@ -368,6 +424,11 @@
     font-weight: 750;
     font-stretch: 118%;
     letter-spacing: -0.02em;
+  }
+
+  /* Numbers line up in tables and tiles */
+  .tabular {
+    font-variant-numeric: tabular-nums;
   }
 
   .skeleton-shimmer {
