@@ -5,7 +5,7 @@ The theme and UI components every ASO app shares. Change something here and each
 ## Use it in an app
 
 ```sh
-pnpm add github:DemuraCore/aso-ui#v0.3.0 @lucide/vue @vueuse/core
+pnpm add github:DemuraCore/aso-ui#v0.3.1 @lucide/vue @vueuse/core
 ```
 
 In the app's main CSS file, instead of importing Tailwind:
@@ -33,7 +33,7 @@ import { Button, Input, Select } from '@aso/ui'
 | `@aso/ui` | Buttons, fields, dropdowns, dialogs, menus, toasts, badges, the account menu, live status, page headers, cards, stat tiles, the sign-in layout and the "Sign in with ASO" button |
 | `@aso/ui/shell` | `AppShell`: the navigation rail and phone bars. Needs `vue-router` |
 | `@aso/ui/form` | Form fields with validation. Needs `vee-validate` |
-| `@aso/ui/theme.css` | Tailwind, the colors, shapes, shadows and motion |
+| `@aso/ui/theme.css` | Tailwind, the colors, shapes, shadows, motion and scrollbars |
 
 Apps that translate their words set the shared labels once:
 

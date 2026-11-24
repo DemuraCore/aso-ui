@@ -416,6 +416,43 @@
     color: var(--md-on-primary-container);
   }
 
+  /*
+    Scrollbars: a thin, faint violet pill on no track, a little stronger
+    under the pointer. Chrome and Safari draw the pill from the -webkit-
+    parts; Firefox only knows the standard two. Elements that hide theirs
+    ([scrollbar-width:none]) still do, since that wins over these.
+  */
+  :root {
+    --scrollbar-thumb: color-mix(in srgb, var(--md-primary) 28%, transparent);
+    --scrollbar-thumb-hover: color-mix(in srgb, var(--md-primary) 50%, transparent);
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border: 2px solid transparent;
+    border-radius: 9999px;
+    background: var(--scrollbar-thumb) padding-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover);
+  }
+  ::-webkit-scrollbar-button {
+    display: none;
+  }
+
+  @supports not selector(::-webkit-scrollbar) {
+    * {
+      scrollbar-width: thin;
+      scrollbar-color: var(--scrollbar-thumb) transparent;
+    }
+  }
 }
 
 @layer components {
