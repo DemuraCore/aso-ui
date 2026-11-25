@@ -1,6 +1,6 @@
 {
   "name": "@aso/ui",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "private": true,
   "description": "ASO's design system: the theme and UI components every ASO app shares",
   "type": "module",
