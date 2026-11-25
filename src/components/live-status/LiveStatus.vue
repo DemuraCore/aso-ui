@@ -18,7 +18,7 @@ const props = withDefaults(
     label: string
     /** Replaces the status's icon, for a state only this app has */
     icon?: Component
-    /** For the phone's top bar: says the status, then settles to the icon */
+    /** For the phone's top bar: just the icon, its color says the status */
     mini?: boolean
     compact?: boolean
   }>(),
@@ -56,9 +56,11 @@ watch(
 )
 onUnmounted(() => clearTimeout(settleTimer))
 
+// The phones' mini capsule stays just the icon; its color says the status
 const wantsExpanded = computed(
   () =>
-    (props.mini || !!props.detail) &&
+    !props.mini &&
+    !!props.detail &&
     (announcing.value || hovering.value || props.status === 'reconnecting'),
 )
 // While the panel is open the capsule keeps its size: the panel is anchored
