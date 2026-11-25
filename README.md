@@ -5,7 +5,7 @@ The theme and UI components every ASO app shares. Change something here and each
 ## Use it in an app
 
 ```sh
-pnpm add github:DemuraCore/aso-ui#v0.4.5 @lucide/vue @vueuse/core
+pnpm add github:DemuraCore/aso-ui#v0.4.6 @lucide/vue @vueuse/core
 ```
 
 In the app's main CSS file, instead of importing Tailwind:

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, type HTMLAttributes } from 'vue'
+import { computed, ref, watch, type HTMLAttributes } from 'vue'
 import { Avatar, AvatarFallback, AvatarImage } from '../avatar'
 import { cn } from '../../lib/utils'
 
@@ -34,6 +34,15 @@ const tone = computed(() => {
   for (const char of key.value) hash = (hash * 31 + char.charCodeAt(0)) | 0
   return tones[Math.abs(hash) % tones.length]
 })
+
+// While a photo loads, only their color shows: the initial is for people
+// without one (or whose photo won't load), not a flash before every picture
+const status = ref<'idle' | 'loading' | 'loaded' | 'error'>('idle')
+watch(
+  () => props.user.avatar_url,
+  () => (status.value = 'idle'),
+)
+const showInitial = computed(() => !props.user.avatar_url || status.value === 'error')
 </script>
 
 <template>
@@ -42,7 +51,8 @@ const tone = computed(() => {
       :src="user.avatar_url ?? ''"
       :alt="user.name || user.username || ''"
       class="h-full w-full object-cover"
+      @loading-status-change="status = $event"
     />
-    <AvatarFallback>{{ key.trim().charAt(0).toUpperCase() }}</AvatarFallback>
+    <AvatarFallback>{{ showInitial ? key.trim().charAt(0).toUpperCase() : '' }}</AvatarFallback>
   </Avatar>
 </template>
