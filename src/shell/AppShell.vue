@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { computed, ref, type Component } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, ref, useSlots, type Component } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { useMediaQuery, useWindowScroll } from '@vueuse/core'
-import { Menu } from '@lucide/vue'
+import { ArrowLeft, Menu } from '@lucide/vue'
 import { Sheet, SheetContent, SheetTitle } from '../components/sheet'
 import { uiLabels } from '../lib/labels'
 import type { ShellItem } from '.'
@@ -10,20 +10,44 @@ import type { ShellItem } from '.'
 // ASO's navigation: a rail on desktop, expanded with labels on wide screens; a
 // top app bar and a bottom bar on phones. With more pages than the bottom bar
 // fits, the rest go under More.
+//
+// The phones' top bar is an app's: your picture (the #account slot, usually an
+// AccountDrawer) or a back arrow on a page under a tab, the page's name in the
+// middle, the live status on the right. Home shows the brand first, then its
+// name once you scroll. It's flat: solid, with a line once you scroll.
 const props = defineProps<{
   items: ShellItem[]
   /** The app's logo, drawn as a component */
   mark: Component
   /** The app's name, in lowercase like "aso" */
   name: string
+  /** The top bar's name for the open page, when it isn't its tab's */
+  title?: string
 }>()
 
 const route = useRoute()
+const router = useRouter()
+const slots = useSlots()
 const desktop = useMediaQuery('(min-width: 48rem)')
 const { y } = useWindowScroll()
 
 const isActive = (to: string) =>
   to === '/' ? route.path === '/' : route.path === to || route.path.startsWith(`${to}/`)
+
+// The tab the open page is under, the deepest match
+const current = computed(() =>
+  props.items
+    .filter((item) => isActive(item.to))
+    .sort((a, b) => b.to.length - a.to.length)[0],
+)
+// A page under a tab, like one user under Users, gets a back arrow
+const nested = computed(() => !!current.value && route.path !== current.value.to)
+const goBack = () =>
+  window.history.state?.back ? router.back() : router.push(current.value?.to ?? '/')
+const pageTitle = computed(() => props.title ?? current.value?.label)
+const showTitle = computed(() => !!pageTitle.value && !(route.path === '/' && y.value < 64))
+// With a picture or back arrow on the left, the middle's brand has the mark
+const markInMiddle = computed(() => nested.value || !!slots.account)
 const badgeText = (n: number) => (n > 99 ? '99+' : String(n))
 
 const overflowing = computed(() => props.items.length > 6)
@@ -107,19 +131,57 @@ const iconTone = (active: boolean) =>
 
     <header
       v-else
-      class="sticky top-0 z-30 flex min-h-16 items-center gap-3 px-4 pt-[env(safe-area-inset-top)] transition-colors duration-300"
-      :class="y > 4 ? 'bg-surface-container/90 backdrop-blur-md' : 'bg-surface'"
+      class="sticky top-0 z-30 grid min-h-14 grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-2 border-b bg-surface px-3 pt-[env(safe-area-inset-top)] transition-colors duration-300"
+      :class="y > 4 ? 'border-outline-variant' : 'border-transparent'"
     >
-      <RouterLink
-        to="/"
-        :aria-label="name"
-        :class="['group mr-auto flex min-w-0 items-center gap-2 rounded-2xl', focusRing]"
+      <div class="flex min-w-0 items-center justify-self-start">
+        <button
+          v-if="nested"
+          type="button"
+          :aria-label="uiLabels.back"
+          :class="[
+            'state-layer -ml-1 flex size-10 items-center justify-center rounded-full text-on-surface',
+            focusRing,
+          ]"
+          @click="goBack"
+        >
+          <ArrowLeft class="size-6" aria-hidden="true" />
+        </button>
+        <slot v-else name="account">
+          <RouterLink to="/" :aria-label="name" :class="['flex rounded-2xl', focusRing]">
+            <component :is="mark" class="size-9" />
+          </RouterLink>
+        </slot>
+      </div>
+
+      <Transition
+        mode="out-in"
+        enter-active-class="transition duration-200 ease-out"
+        enter-from-class="translate-y-1 opacity-0"
+        leave-active-class="transition duration-150 ease-in"
+        leave-to-class="-translate-y-1 opacity-0"
       >
-        <component :is="mark" class="size-9 shrink-0" />
-        <span class="text-display truncate text-2xl leading-none">{{ name }}</span>
-      </RouterLink>
-      <slot name="status" :mini="true" />
-      <div class="flex shrink-0 items-center gap-1">
+        <p
+          v-if="showTitle"
+          key="title"
+          class="max-w-[60vw] truncate text-center text-[17px] font-semibold"
+        >
+          {{ pageTitle }}
+        </p>
+        <RouterLink
+          v-else
+          key="brand"
+          to="/"
+          :aria-label="name"
+          :class="['flex min-w-0 items-center gap-2 rounded-2xl', focusRing]"
+        >
+          <component :is="mark" v-if="markInMiddle" class="size-8 shrink-0" />
+          <span class="text-display truncate text-xl leading-none">{{ name }}</span>
+        </RouterLink>
+      </Transition>
+
+      <div class="flex min-w-0 items-center justify-end gap-1">
+        <slot name="status" :mini="true" />
         <slot name="top-actions" />
       </div>
     </header>

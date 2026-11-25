@@ -1,3 +1,4 @@
+export * from './components/account-drawer'
 export * from './components/account-menu'
 export * from './components/alert-dialog'
 export * from './components/auth-layout'
