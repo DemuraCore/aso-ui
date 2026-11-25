@@ -401,6 +401,13 @@
     cursor: pointer;
   }
 
+  html,
+  body {
+    /* No rubber-band bounce past the top or bottom: it drags the sticky bars
+       along like jelly. Lists that scroll inside themselves still can */
+    overscroll-behavior-y: none;
+  }
+
   html {
     -webkit-tap-highlight-color: transparent;
   }
