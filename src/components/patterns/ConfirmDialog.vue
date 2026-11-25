@@ -40,7 +40,7 @@ watch(
 <template>
   <dialog
     ref="dialog"
-    class="m-auto w-[min(32rem,calc(100vw-2rem))] rounded-3xl bg-surface-container-high p-6 text-left text-on-surface shadow-e3 backdrop:bg-scrim backdrop:backdrop-blur-[2px]"
+    class="m-auto w-[min(32rem,calc(100vw-2rem))] rounded-3xl bg-surface-container-high p-6 text-left text-on-surface shadow-e3 backdrop:bg-scrim"
     :aria-labelledby="titleID"
     @close="open && emit('close')"
   >
