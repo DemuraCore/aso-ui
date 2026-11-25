@@ -13,14 +13,17 @@ export { toast, useToast } from './use-toast'
 
 import { cva, type VariantProps } from 'class-variance-authority'
 
+// A snackbar on ASO's own surface: a faint outline, a colored icon for what
+// kind it is (done, went wrong, worth knowing), the words, then an action or
+// a close. Only transform and opacity animate.
 export const toastVariants = cva(
-  'group pointer-events-auto relative flex w-full items-center justify-between gap-4 overflow-hidden rounded-xl py-3.5 pl-4 pr-12 shadow-e3 transition-all data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-(--reka-toast-swipe-end-x) data-[swipe=move]:translate-x-(--reka-toast-swipe-move-x) data-[swipe=move]:transition-none data-[state=open]:animate-in data-[state=closed]:animate-out data-[swipe=end]:animate-out data-[state=closed]:fade-out-80 data-[state=closed]:slide-out-to-right-full data-[state=open]:slide-in-from-bottom-full data-[state=open]:ease-(--ease-spring)',
+  'group pointer-events-auto relative flex w-full items-center gap-3 overflow-hidden rounded-2xl border border-outline-variant bg-surface-container-high py-2.5 pr-2 pl-3 text-on-surface shadow-e2 transition-transform data-[swipe=cancel]:translate-x-0 data-[swipe=end]:translate-x-(--reka-toast-swipe-end-x) data-[swipe=move]:translate-x-(--reka-toast-swipe-move-x) data-[swipe=move]:transition-none data-[state=open]:animate-toast-in data-[state=closed]:animate-toast-out data-[swipe=end]:animate-toast-out',
   {
     variants: {
       variant: {
-        default: 'bg-inverse-surface text-inverse-on-surface',
-        destructive:
-                    'destructive group bg-error-container text-on-error-container',
+        default: '',
+        destructive: 'destructive',
+        info: 'info',
       },
     },
     defaultVariants: {

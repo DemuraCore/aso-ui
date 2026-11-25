@@ -239,6 +239,21 @@
   --animate-cell-flash: cell-flash 900ms var(--ease-effects) forwards;
   /* The account drawer. Only transform moves, so the GPU slides it alone */
   --animate-drawer-in: drawer-in 280ms var(--ease-emphasized);
+  /* A toast rising above the bottom bar, then fading (a swipe already moved it) */
+  --animate-toast-in: toast-in 320ms var(--ease-spring);
+  --animate-toast-out: toast-out 160ms var(--ease-emphasized) forwards;
+
+  @keyframes toast-in {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 24px, 0) scale(0.96);
+    }
+  }
+  @keyframes toast-out {
+    to {
+      opacity: 0;
+    }
+  }
   --animate-drawer-out: drawer-out 200ms var(--ease-emphasized) forwards;
 
   @keyframes drawer-in {
